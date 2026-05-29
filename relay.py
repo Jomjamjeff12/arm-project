@@ -5,7 +5,7 @@ import time
 import subprocess
 
 
-arduino = serial.Serial("/dev/ttyACM1", 115200)
+arduino = serial.Serial("/dev/ttyACM0", 115200)
 
 time.sleep(2)
 while True:
