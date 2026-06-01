@@ -19,4 +19,3 @@ while True:
     )
     msg = f"{servo}{angle}"
     arduino.write(msg.encode())
-    print("sent:", msg)
