@@ -6,7 +6,9 @@
 Servo servo[3];
 
 String servo_num;
-int servo_angle;
+int new_angle;
+int old_angle = 0;
+
 
 void setup() {
   Serial.begin(115200);
@@ -25,10 +27,11 @@ void loop() {
     int servo_index = servo_num.toInt();
 
     while (Serial.available() == 0); 
-    String angle_str = Serial.readStringUntil('\n');
-    angle_str.trim();
-    servo_angle = angle_str.toInt();
-    
-    servo[servo_index].write(servo_angle);
+    String new_str = Serial.readStringUntil('\n');
+    new_str.trim();
+    new_angle = new_str.toInt();
+    old_angle = new_angle - old_angle;
+
+    servo[servo_index].write(old_angle);
   }
 }
