@@ -30,8 +30,9 @@ void loop() {
     String new_str = Serial.readStringUntil('\n');
     new_str.trim();
     new_angle = new_str.toInt();
-    old_angle = new_angle - old_angle;
-
+    old_angle = new_angle + old_angle;
+    Serial.println(servo_index);
+    Serial.println(old_angle);
     servo[servo_index].write(old_angle);
   }
 }

@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 if ! pgrep -x ncat; then
-  ssh -i ~/.ssh/id_ed25519 will@100.118.65.57 './arm-project/relay.py'
+  ssh -i ~/.ssh/id_ed25519 will@100.118.65.57 './arm-project/relay.py &'
 fi
 
 while true; do
@@ -18,6 +18,6 @@ while true; do
     exit 0
   fi
 
-  echo "$servo" | ncat 100.118.65.57 5005
-  echo "$angle" | ncat 100.118.65.57 5006
+  echo $servo | ncat 100.118.65.57 5005
+  echo $angle | ncat 100.118.65.57 5006
 done
