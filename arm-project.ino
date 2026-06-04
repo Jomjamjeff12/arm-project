@@ -1,5 +1,4 @@
 #include <Servo.h>
-#include <Dictionary.h>
 // base = 0
 // main arm = 1
 // forearm = 2
@@ -30,9 +29,13 @@ void loop() {
     new_str.trim();
     new_angle = new_str.toInt();
     int output_angle = new_angle + servo[servo_index].read();
-    
+    if(new_angle != 0) {
+      servo[servo_index].write(output_angle);
+    } else {
+      servo[1].write(90);
+      servo[2].write(180);
+    }
     Serial.println(servo_index);
-    Serial.println(old_angle);
-    servo[servo_index].write(old_angle);
+    Serial.println(output_angle);
   }
 }
