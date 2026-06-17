@@ -1,17 +1,20 @@
 #!/usr/bin/env bash
 
-if ! pgrep -x ncat; then
-  ssh -i ~/.ssh/id_ed25519 will@100.118.65.57 './arm-project/relay.py &'
-fi
+ssh -i ~/.ssh/id_ed25519 will@100.118.65.57 './arm-project/relay.py &'
 
 while true; do
-  read -p "servo: " servo
-  read -p "angle: " angle
-  
-  echo $servo | ncat 100.118.65.57 5005
-  echo $angle | ncat 100.118.65.57 5006
-  if [ "$angle" = "0" ]; then
-    ssh -i id_ed25519 will@100.118.65.57 'pkill ncat'
+  read -p "servo (q to quit): " servo
+  if [ "$servo" = "q" ]; then
+    
+    ssh -i ~/.ssh/id_ed25519 will@100.118.65.57 'pkill ncat'
     exit 0
   fi
+  read -p "angle: " angle
+  if (( $servo <= 4 && $servo >= 0  && $angle <= 180 && $angle >= 0 )); then
+    msg="$servo,$angle"
+    echo $msg | ncat 100.118.65.57 5005
+  else
+    echo "value out of range"
+  fi
+
 done

@@ -9,13 +9,9 @@ arduino = serial.Serial("/dev/ttyACM0", 115200)
 
 time.sleep(2)
 while True:
-    servo = subprocess.check_output(
+    msg = subprocess.check_output(
         ["ncat", "-l", "5005"],
         text=True
+    
     )
-    angle = subprocess.check_output(
-        ["ncat", "-l", "5006"],
-        text=True
-    )
-    msg = f"{servo}{angle}"
     arduino.write(msg.encode())
