@@ -19,23 +19,25 @@ def angle_solver(x,y,z):
         exit(1)
 
     elbow_angle_rad = math.acos((L2**2 + L1**2 - base_to_target**2) / (2 * L1 * L2))
-    shoulder_angle_rad = math.asin((math.sin(elbow_angle_rad) / base_to_target) * L2)
+    shoulder_angle_rad = math.atan(z / relative_xy) + math.asin((math.sin(elbow_angle_rad)/base_to_target)*L2)
 
     # shouler servo has a 2:1 step down, so i double the output angle
     base_angle = round(math.degrees(base_angle_rad) + 90)
     elbow_angle = round(math.degrees(elbow_angle_rad))
-    shoulder_angle = round(math.degrees(shoulder_angle_rad)) * 2
-
+    shoulder_angle = round(math.degrees(shoulder_angle_rad))
+    if (shoulder_angle < 0):
+        shoulder_angle *= -1
+        shoulder_angle += 180
+    shoulder_angle *= 2
     if not (0 <= base_angle <= 180 or 0 <= elbow_angle <= 180 or 0 <= shoulder_angle <= 270):
         print("target out of range")
         exit(1)
        
-    print(base_angle)
-    print(shoulder_angle)
-    print(elbow_angle)
+    return 0,base_angle,1,shoulder_angle,2,elbow_angle
 
-angle_solver(50,300,100)
+x = int(input("x co-ordinate: "))
+y = int(input("y co-ordinate: "))
+z = int(input("z co-ordinate: "))
 
-
-
-
+coordinates = angle_solver(x, y, z)
+print(",".join(map(str, coordinates)))
