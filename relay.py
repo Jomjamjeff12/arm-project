@@ -10,7 +10,6 @@ L1 = 200
 L2 = 200
 L3 = 50
 
-
 def angle_solver(x,y,z):
     # account for base and wrist displacement
     z -= 50
@@ -29,19 +28,17 @@ def angle_solver(x,y,z):
     base_angle = round(math.degrees(base_angle_rad) + 90)
     elbow_angle = round(math.degrees(elbow_angle_rad))
     shoulder_angle = round(math.degrees(shoulder_angle_rad))
+    
     if (shoulder_angle < 0):
         shoulder_angle *= -1
         shoulder_angle += 180
+    
     shoulder_angle *= 2
     if not (0 <= base_angle <= 180 and 0 <= elbow_angle <= 180 and 0 <= shoulder_angle <= 270):
         print("target out of range")
         exit(1)
-       
-
-       
+              
     return 0,base_angle,1,shoulder_angle,2,elbow_angle
-
-
 
 arduino = serial.Serial("/dev/ttyACM0", 115200)
 time.sleep(2)
@@ -52,7 +49,7 @@ while True:
         text=True
     ).strip()
 
-    msg = msg.replace(","," ")
+    msg = msg.replace(",", " ")
     x, y, z = map(int, msg.split())
     coordinates = angle_solver(x,y,z)
     
@@ -60,5 +57,3 @@ while True:
     coordinates = coordinates + '\n'
     #print(coordinates)
     arduino.write(coordinates.encode())
-
-
